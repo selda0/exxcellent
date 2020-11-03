@@ -1,31 +1,44 @@
 package de.exxcellent.challenge;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Example JUnit 5 test case.
  * @author Benjamin Schmid <benjamin.schmid@exxcellent.de>
  */
 class AppTest {
-
-    private String successLabel = "not successful";
-
-    @BeforeEach
-    void setUp() {
-        successLabel = "successful";
+    
+    @Test 
+    void testFootballOutput() {
+    	String pathFootball = "src/main/resources/de/exxcellent/challenge/football.csv";
+    	String result = Reader.getMinSpreadFootballTeam(pathFootball);
+    	String expected = "Aston_Villa";
+    	assertEquals(expected, result);
     }
-
+    
+    
+    @Test 
+    void testWeatherOutput() {
+    	String pathWeather = "src/main/resources/de/exxcellent/challenge/weather.csv";
+    	String result = Reader.getMinSpreadTempDay(pathWeather);
+    	String expected = "14";
+    	assertEquals(expected, result);
+    }
+    
     @Test
-    void aPointlessTest() {
-        assertEquals("successful", successLabel, "My expectations were not met");
+    void testReadCSVFile() {
+    	final String pathWeather = "src/main/resources/de/exxcellent/challenge/weather.csv";
+    	assertDoesNotThrow(new Executable() {
+			public void execute() throws Throwable {
+				Reader.readCSVFile(pathWeather);
+			}
+		});
     }
 
-    @Test
-    void runFootball() {
-        App.main("--football", "football.csv");
-    }
 
 }
